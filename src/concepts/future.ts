@@ -1,11 +1,7 @@
 import p5 from 'p5';
 
 export function initFuture() {
-  const parent = document.getElementById('p5-container');
-  if (!(parent instanceof HTMLElement)) return;
-  parent.innerHTML = '';
-
-  new p5((p: p5) => {
+  return new p5((p: p5) => {
     let t = 0;
     const r = 0;
     const g = 42;
@@ -21,8 +17,7 @@ export function initFuture() {
 
     p.setup = () => {
       let canvas = p.createCanvas(p.windowWidth, p.windowHeight);
-      console.log('init: ', p.windowWidth, p.windowHeight);
-      canvas.parent('p5-container');
+      canvas.parent('future-hero');
       p.noStroke();
       p.background(r, g, b);
       p.fill(255, 255, 255, 25);
@@ -50,7 +45,6 @@ export function initFuture() {
 
     p.windowResized = () => {
       p.resizeCanvas(p.windowWidth, p.windowHeight);
-      console.log(p.windowWidth, p.windowHeight);
     };
   });
 }

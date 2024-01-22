@@ -1,7 +1,11 @@
 import './css/globals.css';
 import './css/concepts.css';
-import { initBarba } from '$utils/barba';
+
 import { initAnimations } from '$utils/animations';
+import { initBarba } from '$utils/barba';
+import { initFuture } from '$utils/barba';
+import { initTornado } from 'src/concepts/tornado';
+import { fixImageQuality } from '$utils/images';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
@@ -13,16 +17,18 @@ window.Webflow.push(() => {
 });
 
 async function main() {
-  window.addEventListener('load', initBarba);
-  window.addEventListener('load', initAnimations);
+  initBarba();
+  initAnimations();
+  fixImageQuality();
 
-  window.addEventListener('load', () => {
-    const imageElements = document.querySelectorAll(
-      '.animation-image'
-    ) as NodeListOf<HTMLImageElement>;
-    imageElements.forEach((imageElement) => {
-      imageElement.removeAttribute('srcset');
-      imageElement.removeAttribute('sizes');
-    });
-  });
+  switch (location.pathname) {
+    case '/concepts/future':
+      initFuture();
+      break;
+    case '/concepts/tornado':
+      initTornado();
+      break;
+    default:
+      break;
+  }
 }

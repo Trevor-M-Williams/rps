@@ -1,30 +1,12 @@
-import '../css/globals.css';
-
-import { initFuture } from '../concepts/future';
-import { initTornado } from '../concepts/tornado';
-
 type AnimatedElement = HTMLElement & {
   animationTimeouts: number[];
 };
 
 export async function initAnimations() {
   initDefaultAnimations();
-  initLoadAnimations();
   initSideNavAnimation();
   initSVGAnimation();
   init310Animation();
-
-  switch (location.pathname) {
-    case '/concepts/future':
-      console.log('init future');
-      // initFuture();
-      break;
-    case '/concepts/tornado':
-      initTornado();
-      break;
-    default:
-      break;
-  }
 }
 
 function initDefaultAnimations() {
@@ -71,13 +53,6 @@ function initDefaultAnimations() {
   });
 }
 
-function initLoadAnimations() {
-  const elements = document.querySelectorAll('.hide-on-load');
-  elements.forEach((element) => {
-    element.classList.remove('hide-on-load');
-  });
-}
-
 function initSideNavAnimation() {
   const containers = document.querySelectorAll('[side-nav-container]');
   const dotsContainer = document.querySelector('.side-nav-dots');
@@ -98,7 +73,6 @@ function initSideNavAnimation() {
 
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach((entry) => {
-        console.log(entry);
         if (entry.isIntersecting) {
           dot.classList.add('active');
         } else {
