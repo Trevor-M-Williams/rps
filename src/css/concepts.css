@@ -1,0 +1,27 @@
+canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.future-hero {
+  position: relative;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 0.1) 100%);
+  z-index: 1;
+}
+
+.rectangle {
+  position: absolute;
+  height: 5px;
+  background-color: white;
+  opacity: 0.15;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(40px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}

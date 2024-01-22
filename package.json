@@ -54,7 +54,9 @@
   "dependencies": {
     "@barba/core": "^2.9.7",
     "@finsweet/ts-utils": "^0.40.0",
-    "gsap": "^3.12.4"
+    "@types/p5": "^1.7.6",
+    "gsap": "^3.12.4",
+    "p5": "^1.9.0"
   },
   "engines": {
     "pnpm": ">=8"

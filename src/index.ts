@@ -1,7 +1,7 @@
-import './globals.css';
+import './css/globals.css';
+import './css/concepts.css';
 import { initBarba } from '$utils/barba';
 import { initAnimations } from '$utils/animations';
-import { scaleBackgroundImage } from '$utils/background-image';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
@@ -15,8 +15,6 @@ window.Webflow.push(() => {
 async function main() {
   window.addEventListener('load', initBarba);
   window.addEventListener('load', initAnimations);
-  window.addEventListener('load', scaleBackgroundImage);
-  window.addEventListener('resize', scaleBackgroundImage);
 
   window.addEventListener('load', () => {
     const imageElements = document.querySelectorAll(

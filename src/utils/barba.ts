@@ -1,9 +1,11 @@
-import '../globals.css';
+import '../css/globals.css';
 
 import barba, { type ITransitionData } from '@barba/core';
 import { restartWebflow } from '@finsweet/ts-utils';
 import { gsap } from 'gsap';
 import { initAnimations } from '$utils/animations';
+import { initFuture } from '../concepts/future';
+import { initTornado } from '../concepts/tornado';
 
 const NUM_SLIDES = 4;
 const DURATION = 1;
@@ -21,6 +23,8 @@ for (let i = 0; i <= NUM_SLIDES; i++) {
 }
 
 export function initBarba() {
+  document.body.setAttribute('data-barba', 'wrapper');
+
   barba.init({
     transitions: [
       {
@@ -36,6 +40,14 @@ export function initBarba() {
         },
       },
     ],
+  });
+
+  // barba.prefetch('/concepts/future');
+
+  barba.hooks.beforeEnter(async () => {
+    console.log('before enter');
+
+    await initAnimations();
   });
 
   barba.hooks.after(async () => {
@@ -63,6 +75,7 @@ const handleLeave = async (data: ITransitionData) => {
 };
 
 const handleEnter = async (data: ITransitionData) => {
+  console.log('enter');
   gsap.set(data.next.container, { opacity: 1 });
 
   window.scrollTo(0, 0);
@@ -72,10 +85,6 @@ const handleEnter = async (data: ITransitionData) => {
     left: 'auto',
     width: '100%',
   });
-
-  setTimeout(() => {
-    initAnimations();
-  }, 500);
 
   const animations = slides.map((slide) => {
     return gsap.to(slide, {

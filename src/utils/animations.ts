@@ -1,15 +1,30 @@
-import '../globals.css';
+import '../css/globals.css';
+
+import { initFuture } from '../concepts/future';
+import { initTornado } from '../concepts/tornado';
 
 type AnimatedElement = HTMLElement & {
   animationTimeouts: number[];
 };
 
-export function initAnimations() {
+export async function initAnimations() {
   initDefaultAnimations();
   initLoadAnimations();
   initSideNavAnimation();
   initSVGAnimation();
   init310Animation();
+
+  switch (location.pathname) {
+    case '/concepts/future':
+      console.log('init future');
+      // initFuture();
+      break;
+    case '/concepts/tornado':
+      initTornado();
+      break;
+    default:
+      break;
+  }
 }
 
 function initDefaultAnimations() {
