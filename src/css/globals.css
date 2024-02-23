@@ -127,28 +127,16 @@ body {
 }
 
 /* ------------ Image Animations ------------ */
-.image-wrapper {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-.image-overlay {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-}
-.image-overlay.reveal-up {
+.image-reveal-up {
   animation: reveal-up 1s var(--easeOutCubic) both;
 }
-.image-overlay.reveal-down {
+.image-reveal-down {
   animation: reveal-down 1s var(--easeOutCubic) both;
 }
-.image-overlay.reveal-right {
+.image-reveal-right {
   animation: reveal-right 1s var(--easeOutCubic) both;
 }
-.image-overlay.reveal-left {
+.image-reveal-left {
   animation: reveal-left 1s var(--easeOutCubic) both;
 }
 
@@ -179,15 +167,11 @@ body {
 }
 
 @keyframes reveal-right {
-  0% {
-    top: 0;
-    right: 0;
-    width: 100%;
+  from {
+    clip-path: inset(0 100% 0 0);
   }
-  100% {
-    top: 0;
-    right: 0;
-    width: 0%;
+  to {
+    clip-path: inset(0 0 0 0);
   }
 }
 

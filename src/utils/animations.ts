@@ -182,36 +182,9 @@ function handleSlide(element: AnimatedElement, direction: 'left' | 'right' | 'up
 }
 
 function handleImageReveal(image: AnimatedElement, direction: 'left' | 'right' | 'up' | 'down') {
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('image-wrapper');
-  image.style.display = 'inline-block';
-  image.parentNode?.insertBefore(wrapper, image);
-  wrapper.appendChild(image);
+  // This assumes the image takes up the entire height of the parent
 
-  const overlay = document.createElement('div');
-  overlay.classList.add('image-overlay');
-  wrapper.appendChild(overlay);
-
-  // get bg color from neareast parent with bg color
-  let parent = image.parentNode;
-  while (parent) {
-    if (!(parent instanceof HTMLElement)) break;
-    const bgColor = window.getComputedStyle(parent).backgroundColor;
-    if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)') {
-      overlay.style.backgroundColor = bgColor;
-      break;
-    }
-    parent = parent.parentNode;
-  }
-
-  let lastScroll = window.scrollY;
-  let currentScrollDirection = 'down';
-
-  window.addEventListener('scroll', function () {
-    const currentScroll = window.scrollY;
-    currentScrollDirection = currentScroll > lastScroll ? 'down' : 'up';
-    lastScroll = currentScroll;
-  });
+  const parent = image.parentNode as HTMLElement;
 
   const options = {
     root: null,
@@ -222,29 +195,15 @@ function handleImageReveal(image: AnimatedElement, direction: 'left' | 'right' |
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         image.style.opacity = '1';
-        if (currentScrollDirection === 'down') {
-          if (direction === 'up') {
-            overlay.classList.add(`reveal-down`);
-          } else {
-            overlay.classList.add(`reveal-${direction}`);
-          }
-        } else {
-          if (direction === 'down') {
-            overlay.classList.add(`reveal-up`);
-          } else {
-            overlay.classList.add(`reveal-${direction}`);
-          }
-        }
+        image.classList.add('image-reveal-right');
       } else {
         image.style.opacity = '0';
-        overlay.classList.remove(`reveal-${direction}`);
-        overlay.classList.remove(`reveal-up`);
-        overlay.classList.remove(`reveal-down`);
+        image.classList.remove('image-reveal-right');
       }
     });
   }, options);
 
-  observer.observe(image);
+  observer.observe(parent);
 }
 
 function handleTextReveal(element: AnimatedElement) {

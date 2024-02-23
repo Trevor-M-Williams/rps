@@ -3,8 +3,8 @@ import './css/concepts.css';
 
 import { initAnimations } from '$utils/animations';
 import { initBarba } from '$utils/barba';
-import { initFuture } from '$utils/barba';
 import { initTornado } from 'src/concepts/tornado';
+import { initWaves } from 'src/concepts/waves';
 import { fixImageQuality } from '$utils/images';
 
 window.Webflow ||= [];
@@ -22,12 +22,11 @@ async function main() {
   fixImageQuality();
 
   switch (location.pathname) {
-    case '/concepts/future':
-      initFuture();
-      break;
     case '/concepts/tornado':
       initTornado();
       break;
+    case '/concepts/waves':
+      initWaves();
     default:
       break;
   }
