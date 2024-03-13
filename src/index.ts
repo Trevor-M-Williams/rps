@@ -17,17 +17,18 @@ window.Webflow.push(() => {
 });
 
 async function main() {
-  initBarba();
-  initAnimations();
-  fixImageQuality();
+  initWaves();
+  // initBarba();
+  // initAnimations();
+  // fixImageQuality();
 
-  switch (location.pathname) {
-    case '/concepts/tornado':
-      initTornado();
-      break;
-    case '/concepts/waves':
-      initWaves();
-    default:
-      break;
-  }
+  // switch (location.pathname) {
+  //   case '/concepts/tornado':
+  //     initTornado();
+  //     break;
+  //   case '/concepts/waves':
+  //     initWaves();
+  //   default:
+  //     break;
+  // }
 }
