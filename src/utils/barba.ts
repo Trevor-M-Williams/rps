@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { restartWebflow } from '@finsweet/ts-utils';
 import { initAnimations } from '$utils/animations';
 import { initTornado } from 'src/concepts/tornado';
-import { initWaves } from 'src/concepts/waves';
+import { initWavesDark } from 'src/concepts/waves';
 
 const NUM_SLIDES = 4;
 const DURATION = 1;
@@ -45,7 +45,7 @@ export function initBarba() {
   barba.hooks.beforeEnter(async () => {
     await initAnimations();
     if (location.pathname === '/concepts/tornado') initTornado();
-    else if (location.pathname === '/concepts/waves') initWaves();
+    else if (location.pathname === '/concepts/waves') initWavesDark();
   });
 
   barba.hooks.after(async () => {
