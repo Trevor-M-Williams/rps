@@ -24,7 +24,7 @@ export function initWavesDark() {
           y: window.innerHeight * window.devicePixelRatio,
         },
       },
-      pointSize: { value: 3 },
+      pointSize: { value: 5.0 },
       noiseAmp1: { value: 0.1 },
       noiseFreq1: { value: 3.0 },
       spdModifier1: { value: 1 },
@@ -72,18 +72,20 @@ export function initWavesDark() {
     }
 
     void main() {
-      gl_PointSize = pointSize;
-
       vec3 pos = position;
 
-      // pos.xy is the original 2D dimension of the plane coordinates
+      // Apply noise to position.z based on your existing noise calculations
       pos.z += noise(pos.xy * noiseFreq1 + time * spdModifier1) * noiseAmp1;
-      // add noise layering
-      // minus time makes the second layer of wave go the other direction
       pos.z += noise(rotate2d(PI / 4.) * pos.yx * noiseFreq2 - time * spdModifier2 * 0.6) * noiseAmp2;
 
-      vec4 mvm = modelViewMatrix * vec4(pos, 1.0);
-      gl_Position = projectionMatrix * mvm;
+      vec4 modelViewPosition = modelViewMatrix * vec4(pos, 1.0);
+
+      float scaleFactor = 4.0;
+      float perspectiveFactor = scaleFactor / (-modelViewPosition.z * 2.0);
+      gl_PointSize = pointSize * perspectiveFactor;
+
+      gl_Position = projectionMatrix * modelViewPosition;
+
     }
     `,
     fragmentShader: `
@@ -97,12 +99,16 @@ export function initWavesDark() {
     uniform vec2 resolution;
 
     void main() {
-      vec2 st = gl_FragCoord.xy/resolution.xy;
+      float distance = length(gl_PointCoord - vec2(0.5, 0.5));
+      if (distance > 0.5) {
+        discard; // Discard pixels outside the circle radius
+      }
 
-      gl_FragColor = vec4(vec3(0.0, st), 1.0);
-      gl_FragColor = vec4(0, 0.2, 1, 1.0);
+      vec2 st = gl_FragCoord.xy/resolution.xy;
+      gl_FragColor = vec4(0, 0.2, 1, 0.1);
     }
     `,
+    transparent: true,
   });
 
   // Points mesh
@@ -147,15 +153,15 @@ export function initWavesLight() {
   if (!canvas) return;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0066cc);
+  scene.background = new THREE.Color(0x003399);
 
   // Camera setup
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 50);
-  camera.position.set(0, 0, 2);
+  camera.position.set(0, 1, 2);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
 
-  const planeGeometry = new THREE.PlaneGeometry(8, 4, 256, 128);
+  const planeGeometry = new THREE.PlaneGeometry(32, 32, 800, 800);
 
   const planeMaterial = new THREE.ShaderMaterial({
     uniforms: {
@@ -166,13 +172,13 @@ export function initWavesLight() {
           y: window.innerHeight * window.devicePixelRatio,
         },
       },
-      pointSize: { value: 10.0 },
-      noiseAmp1: { value: 0.1 },
-      noiseFreq1: { value: 3.0 },
-      spdModifier1: { value: 1 },
-      noiseAmp2: { value: 0.1 },
-      noiseFreq2: { value: 3.0 },
-      spdModifier2: { value: 1 },
+      pointSize: { value: 8.0 },
+      noiseAmp1: { value: 0.9 },
+      noiseFreq1: { value: 0.3 },
+      spdModifier1: { value: 0.3 },
+      noiseAmp2: { value: 0.9 },
+      noiseFreq2: { value: 0.3 },
+      spdModifier2: { value: 0.2 },
     },
     vertexShader: `
     #define PI 3.14159265359
@@ -214,18 +220,20 @@ export function initWavesLight() {
     }
 
     void main() {
-      gl_PointSize = pointSize;
-
       vec3 pos = position;
 
-      // pos.xy is the original 2D dimension of the plane coordinates
+      // Apply noise to position.z based on your existing noise calculations
       pos.z += noise(pos.xy * noiseFreq1 + time * spdModifier1) * noiseAmp1;
-      // add noise layering
-      // minus time makes the second layer of wave go the other direction
       pos.z += noise(rotate2d(PI / 4.) * pos.yx * noiseFreq2 - time * spdModifier2 * 0.6) * noiseAmp2;
 
-      vec4 mvm = modelViewMatrix * vec4(pos, 1.0);
-      gl_Position = projectionMatrix * mvm;
+      vec4 modelViewPosition = modelViewMatrix * vec4(pos, 1.0);
+
+      float scaleFactor = 4.0;
+      float perspectiveFactor = scaleFactor / (-modelViewPosition.z * 2.0);
+      gl_PointSize = pointSize * perspectiveFactor;
+
+      gl_Position = projectionMatrix * modelViewPosition;
+
     }
     `,
     fragmentShader: `
@@ -234,14 +242,15 @@ export function initWavesLight() {
       if (distance > 0.5) {
         discard; // Discard pixels outside the circle radius
       }
-      gl_FragColor = vec4(1, 1, 1, 1);
+      gl_FragColor = vec4(1, 1, 1, 0.02);
     }
     `,
+    transparent: true,
   });
 
   // Points mesh
   const points = new THREE.Points(planeGeometry, planeMaterial);
-  points.rotation.x = -3.1415 / 3;
+  points.rotation.x = -3.1415 / 2;
   scene.add(points);
 
   function animate() {
