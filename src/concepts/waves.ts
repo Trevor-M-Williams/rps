@@ -4,16 +4,15 @@ export function initWavesDark() {
   const canvas = document.querySelector('.threejs-container');
   if (!canvas) return;
 
+  const renderer = new THREE.WebGLRenderer({ antialias: true, canvas, alpha: true });
+  renderer.setClearColor(0x000000, 0);
+
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
 
-  // Camera setup
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 50);
-  camera.position.set(0, 0, 2);
+  camera.position.set(0, 1, 2);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
-
-  const planeGeometry = new THREE.PlaneGeometry(8, 4, 512, 256);
+  const planeGeometry = new THREE.PlaneGeometry(32, 32, 800, 800);
 
   const planeMaterial = new THREE.ShaderMaterial({
     uniforms: {
@@ -24,13 +23,13 @@ export function initWavesDark() {
           y: window.innerHeight * window.devicePixelRatio,
         },
       },
-      pointSize: { value: 5.0 },
-      noiseAmp1: { value: 0.1 },
-      noiseFreq1: { value: 3.0 },
-      spdModifier1: { value: 1 },
-      noiseAmp2: { value: 0.1 },
-      noiseFreq2: { value: 3.0 },
-      spdModifier2: { value: 1 },
+      pointSize: { value: 8.0 },
+      noiseAmp1: { value: 0.9 },
+      noiseFreq1: { value: 0.3 },
+      spdModifier1: { value: 0.3 },
+      noiseAmp2: { value: 0.9 },
+      noiseFreq2: { value: 0.3 },
+      spdModifier2: { value: 0.2 },
     },
     vertexShader: `
     #define PI 3.14159265359
@@ -89,23 +88,12 @@ export function initWavesDark() {
     }
     `,
     fragmentShader: `
-    #ifdef GL_ES
-    precision mediump float;
-    #endif
-
-    #define PI 3.14159265359
-    #define TWO_PI 6.28318530718
-    
-    uniform vec2 resolution;
-
     void main() {
       float distance = length(gl_PointCoord - vec2(0.5, 0.5));
       if (distance > 0.5) {
         discard; // Discard pixels outside the circle radius
       }
-
-      vec2 st = gl_FragCoord.xy/resolution.xy;
-      gl_FragColor = vec4(0, 0.2, 1, 0.1);
+      gl_FragColor = vec4(1, 1, 1, 0.02);
     }
     `,
     transparent: true,
@@ -113,7 +101,7 @@ export function initWavesDark() {
 
   // Points mesh
   const points = new THREE.Points(planeGeometry, planeMaterial);
-  points.rotation.x = -3.1415 / 4;
+  points.rotation.x = -3.1415 / 2.5;
   scene.add(points);
 
   function animate() {
@@ -241,7 +229,7 @@ export function initWavesLight() {
       if (distance > 0.5) {
         discard; // Discard pixels outside the circle radius
       }
-      gl_FragColor = vec4(1, 1, 1, 0.02);
+      gl_FragColor = vec4(0, .2, .6, 0.1);
     }
     `,
     transparent: true,
