@@ -153,7 +153,7 @@ export function initWavesLight() {
   if (!canvas) return;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x003399);
+  scene.background = new THREE.Color(0x03b6e5);
 
   // Camera setup
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 50);
