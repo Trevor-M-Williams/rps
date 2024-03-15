@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export function initWavesDark() {
+export function initWavesLight() {
   const canvas = document.querySelector('.threejs-container');
   if (!canvas) return;
 
@@ -136,7 +136,7 @@ export function initWavesDark() {
   animate();
 }
 
-export function initWavesLight() {
+export function initWavesDark() {
   const canvas = document.querySelector('.threejs-container');
   if (!canvas) return;
 
