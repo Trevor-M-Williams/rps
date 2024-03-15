@@ -152,14 +152,13 @@ export function initWavesLight() {
   const canvas = document.querySelector('.threejs-container');
   if (!canvas) return;
 
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x03b6e5);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, canvas, alpha: true });
+  renderer.setClearColor(0x000000, 0);
 
-  // Camera setup
+  const scene = new THREE.Scene();
+
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 50);
   camera.position.set(0, 1, 2);
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
 
   const planeGeometry = new THREE.PlaneGeometry(32, 32, 800, 800);
 
