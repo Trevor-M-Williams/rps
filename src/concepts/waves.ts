@@ -93,7 +93,7 @@ export function initWavesDark() {
       if (distance > 0.5) {
         discard; // Discard pixels outside the circle radius
       }
-      gl_FragColor = vec4(1, 1, 1, 0.02);
+      gl_FragColor = vec4(0, .2, .6, 0.1);
     }
     `,
     transparent: true,
@@ -229,7 +229,7 @@ export function initWavesLight() {
       if (distance > 0.5) {
         discard; // Discard pixels outside the circle radius
       }
-      gl_FragColor = vec4(0, .2, .6, 0.1);
+      gl_FragColor = vec4(1, 1, 1, 0.02);
     }
     `,
     transparent: true,
