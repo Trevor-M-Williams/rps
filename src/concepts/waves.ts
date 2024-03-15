@@ -10,7 +10,7 @@ export function initWavesDark() {
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 50);
-  camera.position.set(0, 1, 2);
+  camera.position.set(0, 1.5, 2);
 
   const planeGeometry = new THREE.PlaneGeometry(32, 32, 800, 800);
 
@@ -237,7 +237,7 @@ export function initWavesLight() {
 
   // Points mesh
   const points = new THREE.Points(planeGeometry, planeMaterial);
-  points.rotation.x = -3.1415 / 2;
+  points.rotation.x = -3.1415 / 2.5;
   scene.add(points);
 
   function animate() {
