@@ -1,11 +1,6 @@
 import './css/globals.css';
-import './css/concepts.css';
 
-import { initAnimations } from '$utils/animations';
-import { initBarba } from '$utils/barba';
-import { initTornado } from 'src/concepts/tornado';
-import { initWavesDark, initWavesLight } from 'src/concepts/waves';
-import { fixImageQuality } from '$utils/images';
+import { initWavesLight } from 'src/waves';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
@@ -17,6 +12,5 @@ window.Webflow.push(() => {
 });
 
 async function main() {
-  if (location.pathname.includes('home-v3')) initWavesDark();
-  if (location.pathname.includes('home-v4')) initWavesLight();
+  initWavesLight();
 }
