@@ -12,7 +12,13 @@ export function initWavesLight() {
   const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 50);
   camera.position.set(0, 1.5, 2);
 
-  const planeGeometry = new THREE.PlaneGeometry(32, 32, 800, 800);
+  function getPlaneResolution() {
+    const isMobile = window.innerWidth < 479;
+    return isMobile ? [12, 36, 250, 750] : [32, 32, 800, 800];
+  }
+
+  const [width, height, widthSegments, heightSegments] = getPlaneResolution();
+  const planeGeometry = new THREE.PlaneGeometry(width, height, widthSegments, heightSegments);
 
   const planeMaterial = new THREE.ShaderMaterial({
     uniforms: {
